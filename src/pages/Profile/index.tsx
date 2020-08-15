@@ -28,7 +28,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     Promise.all([
       fetch(`https://api.github.com/users/${username}`),
-      fetch(`https://api.github.com/users/${username}/repos`)
+      fetch(`https://api.github.com/users/${username}/repos`),
     ]).then(async (responses) => {
       const [userResponse, repoResponse] = responses;
 
@@ -38,9 +38,13 @@ const Profile: React.FC = () => {
       }
       const user = await userResponse.json();
       const repos = await repoResponse.json();
+
+      const shuffledRepos = repos.sort(() => 0.50 - Math.random());
+      const slicedRepos = shuffledRepos.slice(0, 6);
+
       setData({
         user,
-        repos,
+        repos: slicedRepos,
       });
     });
   }, [username]);
@@ -49,15 +53,15 @@ const Profile: React.FC = () => {
     return <h1>{data.error}</h1>;
   }
 
-  if(!data?.user || !data?.repos){
-    return <h1>Loading...</h1>
+  if (!data?.user || !data?.repos) {
+    return <h1>Loading...</h1>;
   }
 
   const TabContent: React.FC = () => (
     <div className="content">
       <RepoIcon />
       <span className="label">Repositories</span>
-  <span className="number">{data.user?.public_repos}</span>
+      <span className="number">{data.user?.public_repos}</span>
     </div>
   );
 
