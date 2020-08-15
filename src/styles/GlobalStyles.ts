@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   * {
@@ -17,16 +17,18 @@ export default createGlobalStyle`
     background: none;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
     color: var(--black);
+
+    transition: color .2s ease-out;
   }
 
   ul {
     list-style: none;
   }
   :root {
-    ${props => {
+    ${(props) => {
       const theme = props.theme;
 
-      let append = '';
+      let append = "";
       Object.entries(theme).forEach(([prop, value]) => {
         append += `--${prop}: ${value};`;
       });
